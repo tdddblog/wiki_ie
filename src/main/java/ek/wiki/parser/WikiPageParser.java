@@ -13,15 +13,15 @@ import javax.xml.stream.events.XMLEvent;
 import ek.wiki.util.XmlStreamUtils;
 
 
-public class WikiPagesParser 
+public class WikiPageParser 
 {
-    private static final String RECORD_ROOT_TAG = "page";
+    private static final String PAGE_TAG = "page";
     private static final QName ATTR_TITLE = new QName("title");
     
     private XMLEventReader reader;
     private Page page;
     
-    public WikiPagesParser(String filePath) throws Exception
+    public WikiPageParser(String filePath) throws Exception
     {
         XMLInputFactory fac = XMLInputFactory.newFactory();
         reader = fac.createXMLEventReader(new FileReader(filePath));
@@ -49,7 +49,7 @@ public class WikiPagesParser
 
     public boolean nextPage() throws Exception
     {
-        if(XmlStreamUtils.goToTag(reader, RECORD_ROOT_TAG) == false)
+        if(XmlStreamUtils.goToTag(reader, PAGE_TAG) == false)
         {
             return false;
         }
@@ -65,7 +65,7 @@ public class WikiPagesParser
 		while(reader.hasNext())
 		{
 			XMLEvent event = reader.nextEvent();
-			if(event.isEndElement() && event.asEndElement().getName().getLocalPart().equals(RECORD_ROOT_TAG))
+			if(event.isEndElement() && event.asEndElement().getName().getLocalPart().equals(PAGE_TAG))
 			{
 				return true;
 			}
